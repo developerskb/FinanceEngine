@@ -78,20 +78,33 @@ namespace Engine.Model
         public static List<Valor> BuscarValores(string frase)
         {
             var result = new List<Valor>();
-            string regExpValor = @"(\d+|\d{1,3}(.\d{3})*)(\,\d+)";
+
+            string regExpInteiro = @"\b(R\$ )\b[1-9]+[0-9]*";
+            string regExpValor = @"\b(R\$ )\b(\d+|\d{1,3}(.\d{3})*)(\,\d+)";
             //converter decimal com ','
             System.Globalization.CultureInfo fp = new System.Globalization.CultureInfo("pt-BR");
+
+            var matchInts = Regex.Matches(frase, regExpInteiro);
+            if (matchInts.Count > 0)
+            {
+                foreach (Match match in matchInts)
+                {
+                    var reais = Convert.ToDecimal(match.Value.Replace("R$", "").Trim(), fp);
+                    result.Add(new Valor { ValorLancamento = reais, Index = match.Index });
+                }
+            }
 
             var matchReais = Regex.Matches(frase, regExpValor);
             if (matchReais.Count > 0)
             {
                 foreach (Match match in matchReais)
                 {
-                    var reais = Convert.ToDecimal(match.Value, fp);
+                    var reais = Convert.ToDecimal(match.Value.Replace("R$", "").Trim(), fp);
                     result.Add(new Valor { ValorLancamento = reais, Index = match.Index });
                 }
             }
 
+            
             return result;
         }
     }

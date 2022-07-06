@@ -24,6 +24,7 @@ namespace Engine.Model
         public Lancamento(string frase)
         {
             Frase = frase;
+            FraseConvertida = frase.ToUpper();
         }
 
         public void ProcessarFrase()
@@ -40,7 +41,7 @@ namespace Engine.Model
         {
             var result = $"{Frase}\n{FraseConvertida}";
             result += "\nValores: " + String.Join(", ", Valores.Select(v => $"P({v.Index}) {v.ValorLancamento.ToString("0.00")}").ToArray());
-            result += "\nDatas: " + Datas.Select(d => $"P({d.Index}) {d.Data.ToString()})");
+            result += "\nDatas: " + String.Join(", ", Datas.Select(d => $"P({d.Index}) {d.Data.ToString()}").ToArray());
 
             return result;
         }
