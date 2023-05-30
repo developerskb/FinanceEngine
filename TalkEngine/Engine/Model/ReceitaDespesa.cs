@@ -48,7 +48,40 @@ namespace Engine.Model
         // Identificando Despesas (Gastos)
         public static List<ReceitaDespesa> IdentificarDespesas(string frase)
         {
-            return new List<ReceitaDespesa>();
+            List<ReceitaDespesa> tipoDespesas = GetReceitasDespesas();
+            List<ReceitaDespesa> despesasFrase = new List<ReceitaDespesa>();
+
+            tipoDespesas.ForEach(despesa =>
+            {
+                var posicao = frase.IndexOf(despesa.Nome);
+                while( posicao >= 0 )
+                {
+
+                    despesasFrase.Add(new ReceitaDespesa
+                    {
+                        Index = posicao,
+                        Nome = despesa.Nome,
+                        Id = despesa.Id,
+                        Tipo = despesa.Tipo
+                    });
+
+                    break;
+                }
+            });
+
+            if( despesasFrase.Count == 0 )
+            {
+                despesasFrase.Add(new ReceitaDespesa
+                {
+                    Index = 0,
+                    Nome = tipoDespesas[0].Nome,
+                    Id = tipoDespesas[0].Id,
+                    Tipo = tipoDespesas[0].Tipo
+                });
+            }
+
+
+            return despesasFrase;
         }
     }
 }
