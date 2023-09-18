@@ -19,6 +19,8 @@ namespace EngineConsole
                 var lancamentoTexto = lancamento.ToString();
                 Console.WriteLine(lancamentoTexto);
 
+
+
                 /*if( txt.Length - 3 == c  || c == 3) break;*/
                 /*break;*/
                 /*if (Console.ReadKey().Key.ToString().ToLower() == "numpad0") break;*/
